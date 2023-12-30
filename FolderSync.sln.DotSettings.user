@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=025c85ec_002Df3ee_002D40c5_002D8d81_002Dffa76742c2e5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ModifiedDatesReplicaOlder_ShouldSyncToSourceDate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests.ModifiedDatesReplicaOlder_ShouldSyncToSourceDate&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3e9dfb4f_002D4373_002D4e5f_002D94b6_002Dada7e68a568a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ManyFiles" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61145459_002D1b23_002D4494_002Db0bd_002Dbf32d9ab29e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from FolderSyncIntegTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSyncLib", "FolderSyncLib\FolderSyncLib.csproj", "{476304A9-0871-41F2-A332-1A4CF9AFCC91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSyncConsole", "FolderSyncConsole\FolderSyncConsole.csproj", "{B8E685B3-E9B2-43F2-806A-9DEECF2E739D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSyncTests", "FolderSyncTests\FolderSyncTests.csproj", "{11BB5382-A13D-485A-A123-EF60F9954E43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{476304A9-0871-41F2-A332-1A4CF9AFCC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{476304A9-0871-41F2-A332-1A4CF9AFCC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{476304A9-0871-41F2-A332-1A4CF9AFCC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{476304A9-0871-41F2-A332-1A4CF9AFCC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E685B3-E9B2-43F2-806A-9DEECF2E739D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E685B3-E9B2-43F2-806A-9DEECF2E739D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E685B3-E9B2-43F2-806A-9DEECF2E739D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E685B3-E9B2-43F2-806A-9DEECF2E739D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11BB5382-A13D-485A-A123-EF60F9954E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11BB5382-A13D-485A-A123-EF60F9954E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11BB5382-A13D-485A-A123-EF60F9954E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11BB5382-A13D-485A-A123-EF60F9954E43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
