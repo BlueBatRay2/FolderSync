@@ -58,7 +58,7 @@ FolderSync
 ## Possible Improvements Considered
 
 - Save out calculated hashes in source for reuse
-- Add far more unit tests for code coverage
+- Add more thorough unit tests for complete code coverage
 
 
 
