@@ -1,15 +1,8 @@
 namespace FolderSyncLib.Config;
 
-public class FolderSyncConfig : IFolderSyncConfig
+public class FolderSyncConfig(string[] args) : IFolderSyncConfig
 { 
-    public string SourcePath { get; }
-    public string ReplicaPath { get; }
-    public int SyncInterval { get; }
-    
-    public FolderSyncConfig(string[] args)
-    {
-        SourcePath = args[0];
-        ReplicaPath = args[1];
-        SyncInterval = int.Parse(args[2]);
-    }
+    public string SourcePath { get; } = args[0];
+    public string ReplicaPath { get; } = args[1];
+    public int SyncInterval { get; } = int.Parse((string)args[2]);
 }

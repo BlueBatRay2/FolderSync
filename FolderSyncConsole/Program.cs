@@ -52,7 +52,12 @@ class Program
             Console.WriteLine("Error. Args must be in the following format {Full source path} {Full replica path} {Sync time in minutes} {Log path with file name}");
             return false;
         }
-
+        
+        if(!Directory.Exists(args[0]))
+        {
+            Console.WriteLine("Error. Source directory " + args[0] + "doesn't exist");
+            return false;
+        }
         return true;
     }
 

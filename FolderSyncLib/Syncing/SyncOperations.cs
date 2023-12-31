@@ -3,22 +3,14 @@ using FolderSyncLib.FileAndFolder;
 
 namespace FolderSyncLib.Syncing;
 
-public class SyncOperations : ISyncOperations
+public class SyncOperations(IFileOperations fileOperations, IFileCompareStrategy fileCompareStrategy)
+    : ISyncOperations
 {
-    private readonly IFileOperations _fileOperations;
-    private readonly IFileCompareStrategy _fileCompareStrategy;
-
-    public SyncOperations(IFileOperations fileOperations, IFileCompareStrategy fileCompareStrategy)
-    {
-        _fileOperations = fileOperations;
-        _fileCompareStrategy = fileCompareStrategy;
-    }
-
     public async Task<IEnumerable<Task>> DeleteFilesUnmatched(string sourceDirectory, string replicaDirectory)
     {
         // Asynchronously retrieve the full paths of files in both directories
-        var sourceFilesTask = Task.Run(() => Directory.EnumerateFiles(sourceDirectory));
-        var replicaFilesTask = Task.Run(() => Directory.EnumerateFiles(replicaDirectory));
+        var sourceFilesTask = Task.Run(() => fileOperations.EnumerateFiles(sourceDirectory));
+        var replicaFilesTask = Task.Run(() => fileOperations.EnumerateFiles(replicaDirectory));
 
         var sourceFiles = await sourceFilesTask;
         var replicaFiles = await replicaFilesTask;
@@ -32,14 +24,14 @@ public class SyncOperations : ISyncOperations
             .Select(replicaPath => Path.Combine(replicaDirectory, replicaPath));
 
         // Return tasks to delete these files
-        return filesToDelete.Select(file => _fileOperations.DeleteFileAsync(file));
+        return filesToDelete.Select(file => fileOperations.DeleteFileAsync(file));
     }
 
     public async Task<IEnumerable<Task>> DeleteDirectoriesUnmatched(string sourceDirectory, string replicaDirectory)
     {
         // Asynchronously retrieve the full paths of directories in both source and replica directories
-        var sourceDirectoriesTask = Task.Run(() => Directory.EnumerateDirectories(sourceDirectory));
-        var replicaDirectoriesTask = Task.Run(() => Directory.EnumerateDirectories(replicaDirectory));
+        var sourceDirectoriesTask = Task.Run(() => fileOperations.EnumerateDirectories(sourceDirectory));
+        var replicaDirectoriesTask = Task.Run(() => fileOperations.EnumerateDirectories(replicaDirectory));
 
         var sourceDirectories = await sourceDirectoriesTask;
         var replicaDirectories = await replicaDirectoriesTask;
@@ -53,50 +45,22 @@ public class SyncOperations : ISyncOperations
             .Select(replicaPath => Path.Combine(replicaDirectory, replicaPath));
 
         // Return tasks to delete these directories
-        return directoriesToDelete.Select(directoryPath => _fileOperations.DeleteDirectoryAsync(directoryPath));
+        return directoriesToDelete.Select(directoryPath => fileOperations.DeleteDirectoryAsync(directoryPath));
     }
-
-    public async Task<IEnumerable<Task>> DeleteFilesUnmatched2(string sourceDirectory, string replicaDirectory)
-    {
-        var sourceFilesTask = Task.Run(() => Directory.EnumerateFiles(sourceDirectory));
-        var replicaFilesTask = Task.Run(() => Directory.EnumerateFiles(replicaDirectory));
-
-        var sourceFiles = await sourceFilesTask;
-        var replicaFiles = await replicaFilesTask;
-        
-        var filesToDelete = replicaFiles.Where(entry => !sourceFiles.Contains(entry));
-
-        return filesToDelete.Select(file => _fileOperations.DeleteFileAsync(file));
-    }
-
-    public async Task<IEnumerable<Task>> DeleteDirectoriesUnmatched2(string sourceDirectory, string replicaDirectory)
-    {
-        var sourceDirectoriesTask = Task.Run(() => Directory.EnumerateDirectories(sourceDirectory));
-        var replicaDirectoriesTask = Task.Run(() => Directory.EnumerateDirectories(replicaDirectory));
-
-        var sourceFiles = await sourceDirectoriesTask;
-        var replicaFiles = await replicaDirectoriesTask;
-        
-        var directoriesToDelete = replicaFiles.Where(entry => !sourceFiles.Contains(entry));
-
-        return directoriesToDelete.Select(directoryPath => _fileOperations.DeleteDirectoryAsync(directoryPath));
-    }
-
+    
     public async Task SyncFilesAndDirectories(string sourceDirectory, string replicaDirectory, CancellationToken cancellationToken)
     {
-        Directory.CreateDirectory(replicaDirectory);
+        fileOperations.CreateDirectory(replicaDirectory);
         
         //first let's delete all files and directories not in source
         await DeleteUnmatched(sourceDirectory, replicaDirectory);
 
         await SyncExistingFiles(sourceDirectory, replicaDirectory, cancellationToken);
             
-        var sourceDirectoryInfo = new DirectoryInfo(sourceDirectory);
-
-        foreach (var directory in sourceDirectoryInfo.GetDirectories())
+        foreach (var subDirName in fileOperations.GetSubdirectoriesNames(sourceDirectory))
         {
-            var newSourcePath = Path.Combine(sourceDirectory, directory.Name);
-            var newReplicaPath = Path.Combine(replicaDirectory, directory.Name);
+            var newSourcePath = Path.Combine(sourceDirectory, subDirName);
+            var newReplicaPath = Path.Combine(replicaDirectory, subDirName);
             
             await SyncFilesAndDirectories(newSourcePath, newReplicaPath, cancellationToken);
         }
@@ -104,8 +68,7 @@ public class SyncOperations : ISyncOperations
 
     public async Task SyncExistingFiles(string sourceDirectory, string replicaDirectory, CancellationToken cancellationToken)
     {
-        var sourceFiles = Directory.EnumerateFiles(sourceDirectory);
-        var replicaFiles = Directory.EnumerateFiles(replicaDirectory);
+        var sourceFiles = fileOperations.EnumerateFiles(sourceDirectory);
 
         foreach (var file in sourceFiles)
         {
@@ -114,14 +77,14 @@ public class SyncOperations : ISyncOperations
 
             if (!File.Exists(replicaFilePath) || await FileNeedsUpdate(file, replicaFilePath))
             {
-                await _fileOperations.CopyFileAsync(file, replicaFilePath, cancellationToken);
+                await fileOperations.CopyFileAsync(file, replicaFilePath, cancellationToken);
             }
         }
     }
 
     public async Task<bool> FileNeedsUpdate(string sourceFile, string replicaFile)
     {
-        return !await _fileCompareStrategy.AreEquivalentAsync(sourceFile, replicaFile);
+        return !await fileCompareStrategy.AreEquivalentAsync(sourceFile, replicaFile);
     }
 
     public async Task DeleteUnmatched(string sourceDirectory, string replicaDirectory)
@@ -137,7 +100,6 @@ public class SyncOperations : ISyncOperations
         // Flatten all deletion tasks into a single array
         var allDeletionTasks = fileDeletionTasks.Concat(directoryDeletionTasks).ToArray();
 
-        // Await all deletion tasks
         await Task.WhenAll(allDeletionTasks);
     }
 }

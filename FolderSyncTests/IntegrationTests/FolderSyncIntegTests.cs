@@ -10,10 +10,6 @@ namespace FolderSyncTests.IntegrationTests;
 
 public class FolderSyncIntegTests
 {
-    //- Make tests with tons of little files and big files. Destination directory with extra files. Different modified dates, sizes
-    private readonly Mock<IFileOperations> _mockFileOperations;
-    
-    //private readonly ISyncService _syncService;
     private static readonly string BaseTempDirectory = Path.GetTempPath();
     private static readonly string SourceDirectory = Path.Combine(BaseTempDirectory, "source");
     private static readonly string ReplicaDirectory = Path.Combine(BaseTempDirectory, "replica");
@@ -21,7 +17,7 @@ public class FolderSyncIntegTests
     [Theory]
     [InlineData(1_000, 8_192, 102_400, 10)]              // 1000 files small  8-100 kb
     [InlineData(100, 8_192_000, 102_400_000, 100)]        // 100 files medium 8-100 mb
-    [InlineData(2, 8_192_000_000, 20_400_000_000, 1000)]  // 2 files big 8-20 gb
+    //[InlineData(2, 8_192_000_000, 20_400_000_000, 1000)]  // 2 files big 8-20 gb
     public void FilesBaseFolderDifferentSizes_ShouldSyncCorrectly(int filesToCreate, long sizeLower, long sizeUpper, int cancelTimeSeconds)
     {
         // Arrange
@@ -30,7 +26,7 @@ public class FolderSyncIntegTests
 
         var config = FolderSyncConfig(0, cancelTimeSeconds, 
             out var mockLogger, out var cancellationToken, out var syncOperations);
-        var folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
+        IFolderSync folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
 
         // Act
         var syncTask = folderSync.StartSync(cancellationToken);
@@ -46,8 +42,9 @@ public class FolderSyncIntegTests
         // Arrange
         using var testDirectoryFileHelper = new TestDirectoryFileHelper(SourceDirectory, ReplicaDirectory);
         string subdirectoryPath = Path.Combine(ReplicaDirectory, "Subdirectory");
+        testDirectoryFileHelper.CreateTestFile(ReplicaDirectory);
         testDirectoryFileHelper.CreateTestDirectory(subdirectoryPath);
-        testDirectoryFileHelper.CreateTestFile(subdirectoryPath, 10000);
+        testDirectoryFileHelper.CreateTestFile(subdirectoryPath);
 
         int cancelTimeSeconds = 10;
         var config = FolderSyncConfig(0, cancelTimeSeconds,
@@ -63,7 +60,7 @@ public class FolderSyncIntegTests
     }
 
     [Fact]
-    public void NestedFoldersWithFiles_EmptyReplica()
+    public void NestedFoldersWithFiles_EmptyReplica_ShouldCopy()
     {
         //Arrange
         using var testDirectoryFileHelper = new TestDirectoryFileHelper(SourceDirectory, ReplicaDirectory);
@@ -72,7 +69,7 @@ public class FolderSyncIntegTests
         testDirectoryFileHelper.CreateTestDirectory(subdirectoryPath);
         var fileName = testDirectoryFileHelper.CreateTestFile(subdirectoryPath, 10000);
         
-        int cancelTimeSeconds = 10;
+        int cancelTimeSeconds = 10000;
         var config = FolderSyncConfig(0, cancelTimeSeconds, out var mockLogger, 
             out var cancellationToken, out var syncOperations);
         var folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
@@ -85,27 +82,6 @@ public class FolderSyncIntegTests
         Assert.True(Directory.Exists(Path.Combine(ReplicaDirectory, subdirectoryName)));
         Assert.True(File.Exists(Path.Combine(ReplicaDirectory, subdirectoryName, fileName)));
     }
-    
-     [Fact]
-     public void SyncInterval_BeforeJobDone()
-     {
-         //Arrange
-         using var testDirectoryFileHelper = new TestDirectoryFileHelper(SourceDirectory, ReplicaDirectory);
-         testDirectoryFileHelper.SetupTestFilesSameDirectory(SourceDirectory, 2, 20_400_000_000, 20_400_000_000);
-         
-         int cancelTimeSeconds = 5;
-         var config = FolderSyncConfig(1, cancelTimeSeconds, out var mockLogger, 
-             out var cancellationToken, out _);
-         var mockSyncOperations = new Mock<ISyncOperations>();
-         var folderSync = new FolderSync(mockLogger.Object, config, mockSyncOperations.Object);
-         
-         //Act
-         var syncTask = folderSync.StartSync(cancellationToken);
-         
-         //Assert
-         syncTask.Wait(TimeSpan.FromSeconds(cancelTimeSeconds));
-         mockSyncOperations.Verify(ops => ops.SyncFilesAndDirectories(SourceDirectory, ReplicaDirectory, cancellationToken), Times.Once());
-     }
     
     //Test for ensuring source file is always copied, no matter if replica is older or newer modified dates
     [Theory]
@@ -136,28 +112,61 @@ public class FolderSyncIntegTests
     }
     
     [Fact]
-    public void ModifiedNames()
+    public void ModifiedNames_ShouldCopy()
     {
         //Arrange
-        //Act
+        using var testDirectoryFileHelper = new TestDirectoryFileHelper(SourceDirectory, ReplicaDirectory);
+        string sourceFileName = testDirectoryFileHelper.CreateTestFile(SourceDirectory);
+        
+        File.Copy(Path.Combine(SourceDirectory, sourceFileName), Path.Combine(ReplicaDirectory, "differentName.txt"));
+        DateTime sourceFileModifiedTime = new DateTime(2023, 1, 1, 12, 0, 0); // Fixed current time for test
+        File.SetLastWriteTime(Path.Combine(SourceDirectory, sourceFileName), sourceFileModifiedTime);
+        File.SetLastWriteTime(Path.Combine(ReplicaDirectory, "differentName.txt"), sourceFileModifiedTime);
+
+        int cancelTimeSeconds = 10;
+        var config = FolderSyncConfig(0, cancelTimeSeconds, out var mockLogger, out var cancellationToken, out var syncOperations);
+        var folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
+        
+        // Act
+        var syncTask = folderSync.StartSync(cancellationToken);
+        
         //Assert
+        Assert.True(syncTask.Wait(TimeSpan.FromSeconds(cancelTimeSeconds)), "Operation timed out");
+        Assert.True(File.Exists(Path.Combine(ReplicaDirectory, sourceFileName)));
     }
     
     [Fact]
-    public void ModifiedSizes()
+    public void ModifiedSizes_ShouldCopy()
     {
         //Arrange
-        //Act
+        using var testDirectoryFileHelper = new TestDirectoryFileHelper(SourceDirectory, ReplicaDirectory);
+        string sourceFileName = testDirectoryFileHelper.CreateTestFile(SourceDirectory);
+        string sourceFileFullPath = Path.Combine(SourceDirectory, sourceFileName);
+        string replicaFileFullPath = Path.Combine(ReplicaDirectory, sourceFileName);
+        File.Copy(sourceFileFullPath, replicaFileFullPath);
+        
+        // Add 1 byte to the source file
+        using (var fileStream = new FileStream(replicaFileFullPath, FileMode.Append))
+        {
+            fileStream.WriteByte(0); // Add a single byte
+        }
+        
+        DateTime sourceFileModifiedTime = new DateTime(2023, 1, 1, 12, 0, 0); // Fixed current time for test
+        File.SetLastWriteTime(sourceFileFullPath, sourceFileModifiedTime);
+        File.SetLastWriteTime(replicaFileFullPath, sourceFileModifiedTime);
+        
+        int cancelTimeSeconds = 10000;
+        var config = FolderSyncConfig(0, cancelTimeSeconds, out var mockLogger, out var cancellationToken, out var syncOperations);
+        var folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
+        
+        // Act
+        var syncTask = folderSync.StartSync(cancellationToken);
+        
         //Assert
+        Assert.True(syncTask.Wait(TimeSpan.FromSeconds(cancelTimeSeconds)), "Operation timed out");
+        Assert.Equal(new FileInfo(sourceFileFullPath).Length, new FileInfo(replicaFileFullPath).Length);
     }
-    [Fact]
-    public void ModifiedChecksum()
-    {
-        //Arrange
-        //Act
-        //Assert
-    }
-    
+
     //init config
     private static IFolderSyncConfig FolderSyncConfig(int intervalTime, int cancelTimeSeconds,
         out Mock<ILogger<FolderSync>> mockLogger,

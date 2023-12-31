@@ -6,7 +6,7 @@ using Timer = System.Timers.Timer;
 
 namespace FolderSyncLib;
 
-public class FolderSync
+public class FolderSync : IFolderSync
 {
     private readonly ILogger<FolderSync> _logger;
     private readonly IFolderSyncConfig _config;
@@ -31,7 +31,7 @@ public class FolderSync
                 AutoReset = true,
                 Enabled = false,
             };
-            _syncTimer.Elapsed += SyncInterval;
+            _syncTimer.Elapsed += ((IFolderSync)this).SyncInterval;
         }
     }
 
@@ -40,18 +40,19 @@ public class FolderSync
         _cancellationToken = cancellationToken;
         if (_config.SyncInterval > 0)
         {
-            _logger.LogInformation(Messages.SyncStart, _config.SourcePath, _config.ReplicaPath, _config.SyncInterval);
+            _logger.LogInformation("Syncing started - source {source} to {destination} every {seconds} seconds", _config.SourcePath, _config.ReplicaPath, _config.SyncInterval);
             StartTimer();
             await WaitForCancellation();
             StopTimer();
         }
         else
         {
-            _logger.LogInformation(Messages.SyncStart, _config.SourcePath, _config.ReplicaPath, _config.SyncInterval);
+            _logger.LogInformation("Syncing started - source {source} to {destination}", _config.SourcePath, _config.ReplicaPath);
             await PerformSync();
         }
     }
-    private async Task WaitForCancellation()
+
+    public async Task WaitForCancellation()
     {
         try
         {
@@ -59,25 +60,26 @@ public class FolderSync
         }
         catch (OperationCanceledException)
         {
-            _logger.LogInformation(Messages.SyncCancelled);
+            _logger.LogInformation("Synchronization cancelled");
         }
     }
-    private async Task PerformSync()
+
+    public async Task PerformSync()
     {
         try
         {
             await _syncOperations.SyncFilesAndDirectories(_config.SourcePath, _config.ReplicaPath, _cancellationToken);
         }
-        catch (Exception ex)
+        catch (Exception ex) 
         {
-            _logger.LogError(ex, Messages.SyncError);
+            _logger.LogError(ex, "Error during synchronization");
         }
     }
-    
-    private void StartTimer() => _syncTimer?.Start();
-    private void StopTimer() => _syncTimer?.Stop();
-    
-    private void SyncInterval(object? sender, ElapsedEventArgs e)
+
+    public void StartTimer() => _syncTimer?.Start();
+    public void StopTimer() => _syncTimer?.Stop();
+
+    void IFolderSync.SyncInterval(object? sender, ElapsedEventArgs e)
     {
         if (_isSyncing) return;
         
