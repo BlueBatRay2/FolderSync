@@ -49,7 +49,7 @@ FolderSync
 
 * `string` *SourceDirectory*: An existing directory path that you want to clone
 * `string` *ReplicaDirectory*: The clone directory path (must have write permissions here)
-* `int` *SecondsPerInterval*: 0 can be used to just run the program once, otherwise how often you want to sync
+* `int` *SecondsPerInterval*: how often you want to sync. Must be greater than 0
 * `string` *LogPath*: Path to save all logging events
  
    ```sh
