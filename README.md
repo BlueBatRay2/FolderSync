@@ -2,6 +2,8 @@
 
 <h2 align="center">
 
+![FolderSync_Preview](foldersync.png)
+
 FolderSync
 </h2>
 
