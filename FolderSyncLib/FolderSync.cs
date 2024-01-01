@@ -47,7 +47,7 @@ public class FolderSync : IFolderSync
         }
         else
         {
-            _logger.LogInformation("Syncing started - source {source} to {destination}", _config.SourcePath, _config.ReplicaPath);
+            _logger.LogInformation("Manual sync started - source {source} to {destination}", _config.SourcePath, _config.ReplicaPath);
             await PerformSync();
         }
     }

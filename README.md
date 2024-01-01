@@ -36,7 +36,11 @@ FolderSync
    ```
    **Alternative method:** download zip from https://github.com/BlueBatRay2/FolderSync and extract.
    <br/><br/>
-2. **Run FolderSyncConsole Project:** 
+2. **Change directory to console project:** Use the following command to go to the console directory
+   ```sh
+   cd FolderSync
+   cd FolderSyncConsole
+   ```
 
 ### How to Use
 1. **Format:** FolderSync SourceDirectory ReplicaDirectory SecondsPerInterval
@@ -45,11 +49,10 @@ FolderSync
 * `string` *ReplicaDirectory*: The clone directory path (must have write permissions here)
 * `int` *SecondsPerInterval*: 0 can be used to just run the program once, otherwise how often you want to sync
 * `string` *LogPath*: Path to save all logging events
-
-* 
+ 
    ```sh
   (windows example)
-   FolderSync c:/source c:/destination 600 c:/log.txt
+   dotnet run -- c:\source c:\destination 600 c:\log.txt
    ```
 
 [C#]: https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white

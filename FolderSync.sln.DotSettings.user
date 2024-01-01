@@ -1,31 +1,34 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=FolderSyncTests_003B_002A_003B_002A_003B_002A/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/Users/jakeblumer/Library/Caches/JetBrains/Rider2023.2/resharper-host/temp/Rider/vAny/CoverageData/_FolderSync.-487504156/Snapshot/snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=025c85ec_002Df3ee_002D40c5_002D8d81_002Dffa76742c2e5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ModifiedDatesReplicaOlder_ShouldSyncToSourceDate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests.ModifiedDatesReplicaOlder_ShouldSyncToSourceDate&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=025c85ec_002Df3ee_002D40c5_002D8d81_002Dffa76742c2e5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ModifiedDatesReplicaOlder_ShouldSyncToSourceDate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests.ModifiedDatesReplicaOlder_ShouldSyncToSourceDate&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3e9dfb4f_002D4373_002D4e5f_002D94b6_002Dada7e68a568a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ManyFiles" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3e9dfb4f_002D4373_002D4e5f_002D94b6_002Dada7e68a568a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ManyFiles" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61145459_002D1b23_002D4494_002Db0bd_002Dbf32d9ab29e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from FolderSyncIntegTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61145459_002D1b23_002D4494_002Db0bd_002Dbf32d9ab29e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from FolderSyncIntegTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=69c94686_002Dab76_002D44d7_002D8c12_002Df7e9263911e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PerformSync_ShouldNotBeCalledMultipleTimesConcurrently #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests.PerformSync_ShouldNotBeCalledMultipleTimesConcurrently&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.FolderSyncUnitTests.test1&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.Syncing.FolderSyncUnitTests.TestDeleteUnmatched&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.Syncing.SyncOperationsTests&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:UnitTests/f:FolderSyncUnitTests.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=69c94686_002Dab76_002D44d7_002D8c12_002Df7e9263911e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PerformSync_ShouldNotBeCalledMultipleTimesConcurrently #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests.PerformSync_ShouldNotBeCalledMultipleTimesConcurrently&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.FolderSyncUnitTests.test1&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.Syncing.FolderSyncUnitTests.TestDeleteUnmatched&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.Syncing.SyncOperationsTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:UnitTests/f:FolderSyncUnitTests.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=963b6695_002Da38c_002D49d2_002D9faf_002Df0d19834e2e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PerformSync_ShouldNotBeCalledMultipleTimesConcurrently" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.IntegrationTests.FolderSyncIntegTests.PerformSync_ShouldNotBeCalledMultipleTimesConcurrently&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=963b6695_002Da38c_002D49d2_002D9faf_002Df0d19834e2e4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PerformSync_ShouldNotBeCalledMultipleTimesConcurrently" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::11BB5382-A13D-485A-A123-EF60F9954E43::net8.0::FolderSyncTests.UnitTests.Syncing.SyncOperationsTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFile&gt;11BB5382-A13D-485A-A123-EF60F9954E43/d:IntegrationTests/f:FolderSyncIntegTests.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

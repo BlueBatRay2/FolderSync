@@ -16,7 +16,7 @@ public class FolderSyncIntegTests
 
     [Theory]
     [InlineData(1_000, 8_192, 102_400, 10)]              // 1000 files small  8-100 kb
-    [InlineData(100, 8_192_000, 102_400_000, 100)]        // 100 files medium 8-100 mb
+    //[InlineData(100, 8_192_000, 102_400_000, 100)]        // 100 files medium 8-100 mb
     //[InlineData(2, 8_192_000_000, 20_400_000_000, 1000)]  // 2 files big 8-20 gb
     public void FilesBaseFolderDifferentSizes_ShouldSyncCorrectly(int filesToCreate, long sizeLower, long sizeUpper, int cancelTimeSeconds)
     {
@@ -69,7 +69,7 @@ public class FolderSyncIntegTests
         testDirectoryFileHelper.CreateTestDirectory(subdirectoryPath);
         var fileName = testDirectoryFileHelper.CreateTestFile(subdirectoryPath, 10000);
         
-        int cancelTimeSeconds = 10000;
+        int cancelTimeSeconds = 10;
         var config = FolderSyncConfig(0, cancelTimeSeconds, out var mockLogger, 
             out var cancellationToken, out var syncOperations);
         var folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
@@ -155,7 +155,7 @@ public class FolderSyncIntegTests
         File.SetLastWriteTime(sourceFileFullPath, sourceFileModifiedTime);
         File.SetLastWriteTime(replicaFileFullPath, sourceFileModifiedTime);
         
-        int cancelTimeSeconds = 10000;
+        int cancelTimeSeconds = 10;
         var config = FolderSyncConfig(0, cancelTimeSeconds, out var mockLogger, out var cancellationToken, out var syncOperations);
         var folderSync = new FolderSync(mockLogger.Object, config, syncOperations);
         

@@ -45,6 +45,39 @@ class Program
         }
     }
 
+    private static bool ValidateInterval(string intervalArg)
+    {
+        int interval = 0;
+        try
+        {
+            interval = Int32.Parse(intervalArg);
+        }
+        catch(Exception)
+        {
+            Console.WriteLine($"Interval time invalid. must be a value between 1 and " + Int32.MaxValue);
+            return false;
+        }
+        if (interval <= 0)
+        {
+            Console.WriteLine($"Interval time invalid. must be a value between 1 and " + Int32.MaxValue);
+            return false;
+        }
+
+        return true;
+    }
+
+
+    
+    private static bool ValidateDirectoryExists(string directory)
+    {
+        if(!Directory.Exists(directory))
+        {
+            Console.WriteLine("Error. Source directory " + directory + "doesn't exist");
+            return false;
+        }
+
+        return true;
+    }
     private static bool ValidateArgs(string[] args)
     {
         if (args.Length != 4)
@@ -52,12 +85,35 @@ class Program
             Console.WriteLine("Error. Args must be in the following format {Full source path} {Full replica path} {Sync time in minutes} {Log path with file name}");
             return false;
         }
+
+        if(!ValidateInterval(args[2])) return false;
         
-        if(!Directory.Exists(args[0]))
+        string sourceDirectory = args[0];
+        string replicaDirectory = args[1];
+        string Logfile = args[3];
+        
+        var logDirectoryPath = Path.GetDirectoryName(Logfile);
+        
+        if (logDirectoryPath == null)
         {
-            Console.WriteLine("Error. Source directory " + args[0] + "doesn't exist");
+            Console.WriteLine($"LogFile can't be null");
             return false;
         }
+
+        if (!ValidateDirectoryExists(sourceDirectory)
+            || !ValidateDirectoryExists(logDirectoryPath))
+            return false;
+        
+        if (logDirectoryPath == args[0] || logDirectoryPath == args[1])
+        {
+            Console.WriteLine($"LogFile can't have same directory as source or replica directory");
+            return false;
+        }
+        
+        if (!CanWriteToLogFile(logDirectoryPath)
+            || !CanWriteToLogFile(replicaDirectory))
+            return false;
+        
         return true;
     }
 
@@ -100,5 +156,25 @@ class Program
                 optional: true)
             .AddEnvironmentVariables()
             .AddCommandLine(args);
+    }
+    
+    public static bool CanWriteToLogFile(string directory)
+    {
+        try
+        {
+            Directory.CreateDirectory(directory);
+
+            // Attempt to create (and delete) a temporary file as a test
+            var testFilePath = Path.Combine(directory, Guid.NewGuid().ToString());
+            File.WriteAllText(testFilePath, "Test");
+            File.Delete(testFilePath);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Error testing log file write. Check write permissions to the directory {directory}");
+            return false;
+        }
     }
 }

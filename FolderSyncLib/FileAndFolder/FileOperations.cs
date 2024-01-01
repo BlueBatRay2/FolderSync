@@ -43,11 +43,11 @@ public class FileOperations(ILogger<FileOperations> logger) : IFileOperations
         },"Error Deleting Directory: ");
     }
 
-    private async Task ExecuteFileOperationAsync(Action fileOperation, string context)
+    private async Task ExecuteFileOperationAsync(Func<Task> fileOperation, string context)
     {
         try
         {
-            fileOperation();
+            await fileOperation();
         }
         catch (UnauthorizedAccessException ex)
         {
