@@ -54,17 +54,17 @@ public class TestDirectoryFileHelper : IDisposable
     
     public void Dispose()
     {
-        Parallel.ForEach(_files, (filePath, cancellationToken) =>
+        foreach (var filePath in _files)
         {
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
                 File.Delete(filePath);
-        });
-        
-        Parallel.ForEach(_directories, (directoryPath, cancellationToken) =>
+        }
+    
+        foreach (var directoryPath in _directories)
         {
-            if(Directory.Exists(directoryPath))
+            if (Directory.Exists(directoryPath))
                 Directory.Delete(directoryPath, true);
-        });
+        }
     }
 
     public static void TestDirectoryEqualness(string sourceDirectory, string replicaDirectory)
