@@ -2,7 +2,7 @@
 
 <h2 align="center">
 
-![FolderSync_Preview](foldersync.png)
+![FolderSync_Preview](animation.gif)
 
 FolderSync
 </h2>
